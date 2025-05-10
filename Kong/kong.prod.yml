@@ -1,0 +1,51 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: core-service
+    url: http://core-service:8000
+    routes:
+      - name: core-routes
+        paths:
+          - /api/v1/core
+          - /api/v1/auth
+          - /api/v1/users
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local
+
+  - name: academics-service
+    url: http://academics-service:8000
+    routes:
+      - name: academics-routes
+        paths:
+          - /api/v1/academics
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          claims_to_verify:
+            - exp
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local
+
+  - name: library-service
+    url: http://library-service:8000
+    routes:
+      - name: library-routes
+        paths:
+          - /api/v1/library
+    plugins:
+      - name: jwt
+        config:
+          secret_is_base64: false
+          claims_to_verify:
+            - exp
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local

@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # API Gateway
+  kong:
+    image: kong:latest
+    container_name: seamless_kong
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/etc/kong/kong.yml
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"  # Kong proxy
+      - "8001:8001"  # Kong admin API
+    volumes:
+      - ../Kong/kong.dev.yml:/etc/kong/kong.yml
+    networks:
+      - seamless_network
+
+  # ELK Stack`
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
+    container_name: seamless_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - seamless_elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - seamless_network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.4
+    container_name: seamless_logstash
+    volumes:
+      - ../logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    depends_on:
+      - elasticsearch
+    networks:
+      - seamless_network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.4
+    container_name: seamless_kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - seamless_network
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.10.4
+    container_name: seamless_filebeat
+    volumes:
+      - ../filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Mount local log directories
+      - ../src/Core/logs:/logs/core:ro
+      - ../src/Academics/logs:/logs/academics:ro
+      - ../src/Library/logs:/logs/library:ro
+    depends_on:
+      - elasticsearch
+      - logstash
+    networks:
+      - seamless_network
+
+volumes:
+  seamless_elasticsearch_data:
+
+networks:
+  seamless_network:
+    driver: bridge

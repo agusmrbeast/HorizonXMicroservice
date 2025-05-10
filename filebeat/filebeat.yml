@@ -1,0 +1,42 @@
+filebeat.inputs:
+# Docker container logs
+- type: container
+  paths:
+    - '/var/lib/docker/containers/*/*.log'
+
+# Local service logs
+- type: log
+  enabled: true
+  paths:
+    - /logs/core/*.log
+    - /logs/academics/*.log
+    - /logs/library/*.log
+  json.keys_under_root: true
+  json.add_error_key: true
+
+processors:
+  - add_docker_metadata:
+      host: "unix:///var/run/docker.sock"
+  - decode_json_fields:
+      fields: ["message"]
+      target: "json"
+      overwrite_keys: true
+  # Add service field based on file path
+  - add_fields:
+      when.regexp.log.file.path: ".*core.*"
+      target: ''
+      fields:
+        service: "core"
+  - add_fields:
+      when.regexp.log.file.path: ".*academics.*"
+      target: ''
+      fields:
+        service: "academics"
+  - add_fields:
+      when.regexp.log.file.path: ".*library.*"
+      target: ''
+      fields:
+        service: "library"
+
+output.logstash:
+  hosts: ["logstash:5044"]

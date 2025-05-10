@@ -1,0 +1,45 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: core-service
+    url: http://host.docker.internal:8010
+    routes:
+      - name: core-routes
+        paths:
+          - /core
+        strip_path: true
+        path_handling: v0
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+
+  - name: academics-service
+    url: http://host.docker.internal:8020
+    routes:
+      - name: academics-routes
+        paths:
+          - /academics
+        strip_path: true
+        path_handling: v0
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+
+  - name: library-service
+    url: http://host.docker.internal:8030
+    routes:
+      - name: library-routes
+        paths:
+          - /library
+        strip_path: true
+        path_handling: v0
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
